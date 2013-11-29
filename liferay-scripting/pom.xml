@@ -15,6 +15,7 @@
 
 
 	<build>
+        <finalName>${pom.artifactId}</finalName>
 		<plugins>
 			<plugin>
 				<groupId>com.liferay.maven.plugins</groupId>
@@ -31,8 +32,8 @@
 				<version>2.5</version>
 				<configuration>
 					<encoding>UTF-8</encoding>
-					<source>1.5</source>
-					<target>1.5</target>
+					<source>1.6</source>
+					<target>1.6</target>
 				</configuration>
 			</plugin>
 			<plugin>
