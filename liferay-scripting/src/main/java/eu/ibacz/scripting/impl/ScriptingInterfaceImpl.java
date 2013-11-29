@@ -11,6 +11,10 @@ package eu.ibacz.scripting.impl;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
+import com.liferay.portal.model.ResourceConstants;
+import com.liferay.portal.security.auth.CompanyThreadLocal;
+import com.liferay.portal.security.permission.ActionKeys;
+import com.liferay.portal.service.ResourcePermissionLocalServiceUtil;
 import com.liferay.portal.service.ServiceContext;
 import com.liferay.portlet.wiki.model.WikiPage;
 import com.liferay.portlet.wiki.service.WikiPageLocalServiceUtil;
@@ -64,6 +68,25 @@ public class ScriptingInterfaceImpl implements ScriptingInterface {
         }
 
         return result;
+    }
+
+    @Override
+    public void addPermissionsToRole() throws SystemException, PortalException {
+
+        Long roleId = 15724l;
+        Long nodeId = 11730l;
+
+        Long companyId = CompanyThreadLocal.getCompanyId();
+        List<WikiPage> pages = WikiPageLocalServiceUtil.getPages(nodeId, -1, -1);
+        for (WikiPage page : pages) {
+            ResourcePermissionLocalServiceUtil.setResourcePermissions(
+                    companyId,
+                    WikiPage.class.getName(),
+                    ResourceConstants.SCOPE_INDIVIDUAL,
+                    "" + page.getResourcePrimKey(),
+                    roleId,
+                    new String[]{ActionKeys.PERMISSIONS});
+        }
     }
 
     public String test() {
